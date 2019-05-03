@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Test</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="js/jquery.animateSprite.js"></script>
+
+</head>
+
+<body>
+<!---------------------------------------------------------------------------------------- -->
+
+<div id="gameObjects">
+  <img src="images/Game_Background.png" id="game_background" alt="game_background">
+  <img src="images/player2.png" id="player2" class="player" alt="player2">
+</div>
+
+
+<img src="images/player1.png" id="player1" class="player" alt="player1">
+
+<div id="GUI">
+
+  <div id="invite">
+    <p style="color: darkblue; font-size: 2vw; margin-top: 1vw; float: left;">Invite player 2: </p>
+    <input type="text" id="partyId" value="" placeholder="id of player to invite" style="float: left;  margin-top: 1vw; height: 2vw; width: 10vw;">
+    <button type="button" name="buttonSend" onclick="sendInvite()" style="margin-left: 1vw; margin-top: 1vw; height: 3vw; width: 10vw;">Send</button>
+  </div>
+
+    <p id="myId_text" style="position: absolute;color: darkblue; font-size: 2vw; margin-top: 1vw; float: left;">Your ID is: </p>
+
+  <div id="invitation" style="position: absolute; height: 30vw;  width: 50vw;  background-color: red;  top: 10vw;  left:  25vw;">
+    <p id="inviteInfo" style="font-size: 3vw; position: absolute; left: 9vw; width: 50vw;">You got invited by: player</p>
+    <button type="button" name="buttonAccept" onclick="Accept()" style="position: absolute; height: 5vw;  width: 10vw; top: 20vw;  left: 5vw;">Accept</button>
+    <button type="button" name="buttonRefuse" onclick="Refuse()" style="position: absolute; height: 5vw;  width: 10vw; top: 20vw;  right: 5vw;">Refuse</button>
+  </div>
+
+
+</div>
+
+<!---------------------------------------------------------------------------------------- -->
+
+<script src="/js/main.js"></script>
+</body>
+</html>
