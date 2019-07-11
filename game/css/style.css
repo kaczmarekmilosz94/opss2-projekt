@@ -1,0 +1,95 @@
+html
+{
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+body
+{
+  margin: 0;
+}
+
+#game_background
+{
+  height: 100%;
+}
+
+#gameObjects
+{
+  position: absolute;
+  height: 56.25vw;
+  width: 100%;
+}
+
+#GUI
+{
+  position: absolute;
+}
+
+#player1
+{
+  position: relative;
+  height: 12vw;
+
+  top: 0vw;
+  left: -8.91vw;
+}
+
+#player2
+{
+  position: relative;
+  height: 13vw;
+
+  top: 0vw;
+  left: 0vw;
+}
+
+.Troll
+{
+  overflow: hidden;
+  position: absolute;
+
+  height: 12vw;
+  top: 35vw;
+}
+
+.Golem
+{
+  overflow: hidden;
+  position: absolute;
+
+  height: 20vw;
+  top: 25vw;
+}
+
+.mob {
+	
+}
+
+.playerRenderer1{
+  overflow: hidden;
+  position: absolute;
+
+  width: 9.72vw;
+  height: 12vw;
+
+  top: 0vw;
+  left: -2vw;
+}
+
+.playerRenderer2{
+  overflow: hidden;
+  position: absolute;
+
+  width: 13vw;
+  height: 13vw;
+
+  top: 0vw;
+  left: -2vw;
+}
+
+
+
+.flipped {
+    transform: scale(-1, 1);
+}

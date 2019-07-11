@@ -1,0 +1,14 @@
+html
+{
+}
+
+body {	
+  background-color: black; 
+}
+
+.container
+{
+  margin: 0;
+  background-image: url("C:/Users/milos/Desktop/photon_test/css/site/background.jpg");  
+}
+
