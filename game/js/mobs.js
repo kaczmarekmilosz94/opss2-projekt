@@ -1,7 +1,7 @@
 var troll = {
 	name: "Troll",
 	ID: "id",
-	img: "/opss/game/images/troll.png",
+	img: "images/troll.png",
 	health: 100,
 	damage: 10,
 	speed: 5,
@@ -11,7 +11,7 @@ var troll = {
 var golem = {
 	name: "Golem",
 	ID: "id",
-	img: "/opss/game/images/golem.png",
+	img: "images/golem.png",
 	health: 200,
 	damage: 20,
 	speed: 2,	
