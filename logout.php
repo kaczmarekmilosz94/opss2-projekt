@@ -1,5 +1,9 @@
 <?php
 	session_start();
+
+	session_unset();
+
+	header('Location: index.php');
  ?>
 
 <!DOCTYPE html>
@@ -38,7 +42,7 @@
 				if(isset($_SESSION['logged']))
 				{
 					if($_SESSION['logged'])
-						echo "<a class='nav-link' href='logout.php'>Logout</a>";
+						echo "<a class='nav-link' href='login.php'>Logout</a>";
 					else
 						echo "<a class='nav-link' href='register.php'>Register</a>";
 				}
@@ -51,7 +55,7 @@
 				if(isset($_SESSION['logged']))
 				{
 					if($_SESSION['logged'])
-						echo "<a class='nav-link' href='game.php'><b>".$_SESSION['username']."</b></a>";
+						echo "<a class='nav-link' href='game.php'>".$_SESSION['username']."</a>";
 					else
 						echo "<a class='nav-link' href='login.php'>Login</a>";
 				}
@@ -172,10 +176,10 @@
 	<div class="col-md-4">
 		<h5>Other products</h5>
 		<hr class="light">
-		<a href="http://wwwold.fizyka.umk.pl/~296759/rakieta/">Rocket calculator</a></br></br>
-		<a href="http://wwwold.fizyka.umk.pl/~296759/photon_test/default.htm">Photon chat</a></br></br>
-		<a href="http://wwwold.fizyka.umk.pl/~296759/kolo/kolo.html">Angle calculator</a></br></br>
-		<a href="http://wwwold.fizyka.umk.pl/~296759/snake/snake.html">Snake The Game</a></br></br>
+		<p>Rocket calculator</p>
+		<p>Photon chat</p>
+		<p>Angle calculator</p>
+		<p>Snake The Game</p>
 	</div>
 	<div class="col-md-4">
 		<h5>Useful links</h5>

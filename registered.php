@@ -12,29 +12,83 @@
 
 	$username = $_POST['username'];
 	$password = $_POST['password'];
+	$password2 = $_POST['password2'];
+	$email = $_POST['email'];
+
+	if($username == '') {
+		header("Location:register.php");
+		exit();
+	}
+	if($password == '') {
+		header("Location:register.php");
+		exit();
+	}
+	if($password2 == '') {
+		header("Location:register.php");
+		exit();
+	}
+	if($email == '') {
+		header("Location:register.php");
+		exit();
+	}
 
 	try
 	{
 		$db = new PDO('sqlite:game_PDO.sqlite');
 
-		$sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+		$sql1 = "SELECT * FROM users WHERE username='$username'";
+		$sql2 = "SELECT * FROM users WHERE email='$email'";
 
-		if($result = $db->query($sql))
+		$err1=0;
+		$err2=0;
+
+		if($result1 = $db->query($sql1))
 		{
-			$count = 0;
-			foreach($result as $row)
+			foreach($result1 as $row)
 			{
-				$count=$count+1;
-
-				$_SESSION['username'] = $row['username'];
-				$_SESSION['logged'] = true;
-
-					header('Location:game.php');
+				$err1=1;
 			}
-			if($count==0)	header("Location:login.php?err=Invalid username or password");
+		}
+		if($result2 = $db->query($sql2))
+		{
+			foreach($result2 as $row)
+			{
+				$err2=1;
+			}
 		}
 
-		$result->finalize();
+		if($err1==1)
+		{
+			$comment = 'Username already taken';
+			header("Location:register.php?err=".$comment);
+		}
+		else if($err2==1)
+		{
+			$comment = 'Email already taken';
+			header("Location:register.php?err=".$comment);
+		}
+		else if($password == $password2)
+		{
+			$sql = "INSERT INTO users (username, password, email)
+			VALUES('$username','$password','$email')";
+
+			if($db->query($sql))
+			{
+				$comment = 'Successfully registered!';
+				header("Location:login.php?comment=".$comment);
+			}
+			else
+			{
+				$comment = 'Could not register the account';
+				header("Location:register.php?err=".$comment);
+			}
+		}
+		else
+		{
+			$comment = 'Password does not match';
+			header("Location:register.php?err=".$comment);
+		}
+
 		$db=null;
 	}
 	catch(PDOException $e)

@@ -1,3 +1,24 @@
+<?php
+	session_start();
+	if(isset($_SESSION['logged']))
+	{
+		if($_SESSION['logged'])
+		{
+
+		}
+		else
+		{
+			header("Location:login.php");
+			exit();
+		}
+	}
+	else
+	{
+		header("Location:login.php");
+		exit();
+	}
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,10 +53,30 @@
 				<a class="nav-link" href="#">About</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="register.php">Register</a>
+				<?php
+				if(isset($_SESSION['logged']))
+				{
+					if($_SESSION['logged'])
+						echo "<a class='nav-link' href='logout.php'>Logout</a>";
+					else
+						echo "<a class='nav-link' href='register.php'>Register</a>";
+				}
+				else
+					echo "<a class='nav-link' href='register.php'>Register</a>";
+				?>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="login.php">Login</a>
+				<?php
+				if(isset($_SESSION['logged']))
+				{
+					if($_SESSION['logged'])
+						echo "<a class='nav-link' href='game.php'><b>".$_SESSION['username']."</b></a>";
+					else
+						echo "<a class='nav-link' href='login.php'>Login</a>";
+				}
+				else
+					echo "<a class='nav-link' href='login.php'>Login</a>";
+				?>
 			</li>
 		</ul>
 	</div>
@@ -53,7 +94,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 		<p class="lead">
 
-			<iframe id="iframe" src="game/index.html"></iframe>
+			<iframe id="iframe" src="game/index.php"></iframe>
 
 		</p>
 	</div>

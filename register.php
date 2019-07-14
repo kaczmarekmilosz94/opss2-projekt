@@ -9,39 +9,7 @@
 			exit();
 		}
 	}
-
-	$username = $_POST['username'];
-	$password = $_POST['password'];
-
-	try
-	{
-		$db = new PDO('sqlite:game_PDO.sqlite');
-
-		$sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-
-		if($result = $db->query($sql))
-		{
-			$count = 0;
-			foreach($result as $row)
-			{
-				$count=$count+1;
-
-				$_SESSION['username'] = $row['username'];
-				$_SESSION['logged'] = true;
-
-					header('Location:game.php');
-			}
-			if($count==0)	header("Location:login.php?err=Invalid username or password");
-		}
-
-		$result->finalize();
-		$db=null;
-	}
-	catch(PDOException $e)
-	{
-		echo $e->getMessage();
-	}
-?>
+ ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,6 +25,8 @@
 	<link href="style.css" rel="stylesheet">
 </head>
 <body>
+
+
 
 
 <!-- Navigation -->
@@ -92,11 +62,20 @@
 <div class="jumbotron row text-center padding">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 		<p class="lead">
-			<form action="logged.php" method="post">
-				Username: <br/><input type="text" name"username"/><br/>
-				Password: <br/><input type="password" name"username"/><br/><br/>
-				<input type="submit" value="Login"/>
+			<form action="registered.php" method="post">
+				Username: <br/><input type="text" name="username" minlength="8" maxlength="20"/><br/>
+				Password: <br/><input type="password" name="password" minlength="8" maxlength="20"/><br/>
+				Repeat password: <br/><input type="password" name="password2" minlength="8" maxlength="20"/><br/>
+				Email: <br/><input type="email" name="email"/><br/><br/>
+				<input type="submit" value="Register"/>
 			</form>
+
+			<?php
+				if(isset($_GET['err']))
+				{
+						echo "</br>".$_GET['err'];
+				}
+			?>
 		</p>
 	</div>
 </div>

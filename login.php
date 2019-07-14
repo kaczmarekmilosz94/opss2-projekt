@@ -1,3 +1,16 @@
+<?php
+	session_start();
+
+	if(isset($_SESSION['logged']))
+	{
+		if($_SESSION['logged'])
+		{
+			header("Location:index.php");
+			exit();
+		}
+	}
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,7 +72,11 @@
 
 				if(isset($_GET['err']))
 				{
-						echo '<br/> Invalid username or password ';
+							echo '<br/>'.$_GET['err'];
+				}
+				if(isset($_GET['comment']))
+				{
+						echo '<br/>'.$_GET['comment'];
 				}
 			?>
 		</p>
