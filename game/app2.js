@@ -67,7 +67,7 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
             }
             else {
                 this.connectToRegionMaster("EU");
-				$("#createRoomButton").hide();					
+				$("#createRoomButton").hide();
             }
         }
     };
@@ -137,7 +137,7 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
 		console.log("got room list");
 
 		_rooms = rooms;
-		    
+
 
 		if(localStorage.getItem("roomName")=="DesertScream" ||
        localStorage.getItem("roomName")=="GreenDespair" ||
@@ -203,24 +203,24 @@ window.onload = function () {
 function showRooms(name)
 {
 		console.log("got room list update");
-		
+
 		$("#mapUI").hide();
 		$("#createRoomButton").show();
       	$("#roomSlotsContainer").empty();
 		$("#createRoomButton").attr('onclick', 'startRoom("'+name+'")');
 
 		    for(var i=0;i<_rooms.length;i++)	{
-				
+
 					var words;
-				
+
 					for (var j=0;j<_rooms[i].name.length;j++)
 					{
 						words = _rooms[i].name.split(" ");
-					}	
+					}
 			        if(words[0] == name)
 					{
-						var slot= $('<input type="button" value="'+_rooms[i].name+'" onclick="startRoom(\''+_rooms[i].name+'\')"/>');				
-						
+						var slot= $('<input type="button" value="'+_rooms[i].name+'" onclick="startRoom(\''+_rooms[i].name+'\')"/>');
+
 						localStorage.setItem("mapName",name);
 
 						$("#roomSlotsContainer").append(slot);
