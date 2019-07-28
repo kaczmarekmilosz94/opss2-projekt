@@ -1,0 +1,178 @@
+p
+{
+  margin: 0.15vh;
+}
+
+body
+{
+  overflow: hidden;
+}
+
+.statistics
+{
+  position: absolute;
+  text-align: right;
+  font-size: 2.75vh;
+
+  top: 5vh;
+  left: 50vw;
+  height: 25.2vh;
+  width: 18vw;
+
+  background-color: lightgray;
+}
+
+.portret
+{
+  position: absolute;
+  background-color: gray;
+  top: 10vh;
+  left: 5vw;
+  height: 72vh;
+  width: 29vw;
+}
+
+.btn_start
+{
+  position: absolute;
+  top: 85vh;
+  left: 15vw;
+}
+
+#btn_buy
+{
+  position: absolute;
+  top: 14vh;
+  left: 38vw;
+  width: 10vw;
+}
+
+#itemStats1
+{
+  position: absolute;
+  width: 15vw;
+  top: 10vh;
+  left: 1vw;
+}
+
+#itemStats2
+{
+  position: absolute;
+  width: 15vw;
+  top: 10vh;
+  left: 16vw;
+}
+
+.attributes
+{
+  position: absolute;
+  font-size: 3.3vh;
+
+  top: 5vh;
+  left: 70vw;
+  width: 30vw;
+}
+.keys
+{
+  text-align: right;
+  background-color: lightblue;
+  width: 12vw;
+  float: left;
+}
+.values
+{
+  float: left;
+  text-align: center;
+  background-color: pink;
+  width: 8vw;
+}
+.buttons
+{
+  text-align: right;
+  float: left;
+}
+.btn_box
+{
+  height: 6vh;
+  width: 6vh;
+  margin-bottom: : 0.15vh;
+}
+
+.equipment
+{
+  position: absolute;
+  top: 10vh;
+  left: 35vw;
+
+  background-color: red;
+}
+
+.eq
+{
+  height: 12vh;
+  width: 12vh;
+
+  background-color: blue;
+  margin: 2vh;
+}
+
+.item
+{
+  height: 100%;
+  width: 100%;
+}
+
+.shop_item
+{
+  height: 9vh;
+  width: 9vh;
+}
+
+
+
+#dialog
+{
+  position: absolute;
+  width: 49vw;
+  height: 40vh;
+  top: 40vh;
+  left: 48vw;
+
+  font-size: 2vh;
+}
+
+#dialogText
+{
+  position: absolute;
+  width: 52vw;
+  height: 20vh;
+  overflow: hidden;
+}
+
+.tab
+{
+  width: 25vw;
+  height: 32vh;
+  overflow: hidden;
+}
+
+#shop_pic
+{
+  height: 55vh;
+  width: auto;
+  left: 25vw;
+  top: -11vh;
+
+  position: absolute;
+}
+
+#feedback { font-size: 1.4em; }
+#selectable .ui-selecting { background: #FECA40; }
+#selectable .ui-selected { background: #F39814; color: white; }
+#selectable { list-style-type: none; margin: 0; padding: 0; width: 25vw; }
+#selectable li { margin: .2vw; padding: 1vh; float: left; width: 5vw; height: 5vw; font-size: 1vw; text-align: center; }
+
+#selectable2 .ui-selecting { background: #FECA40; }
+#selectable2 .ui-selected { background: #F39814; color: white; }
+#selectable2 { list-style-type: none; margin: 0; padding: 0; width: 25vw; }
+#selectable2 li { margin: .2vw; padding: 1vh; float: left; width: 5vw; height: 5vw; font-size: 1vw; text-align: center; }

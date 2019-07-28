@@ -27,6 +27,14 @@
 				$count=$count+1;
 
 				$_SESSION['username'] = $row['username'];
+				$_SESSION['nickname'] = $row['nickname'];
+				$_SESSION['class'] = $row['class'];
+				$_SESSION['str'] = $row['str'];
+				$_SESSION['int'] = $row['int'];
+				$_SESSION['dex'] = $row['dex'];
+				$_SESSION['gold'] = $row['gold'];
+				$_SESSION['weapon']  = $row['weapon'];
+				$_SESSION['outfit']  = $row['outfit'];
 				$_SESSION['logged'] = true;
 
 					header('Location:game.php');

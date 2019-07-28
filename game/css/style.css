@@ -21,9 +21,56 @@ body
   width: 100%;
 }
 
-#GUI
+.GUI
 {
   position: absolute;
+}
+
+#hp_bar
+{
+  background-color: red;
+  width: 20vw;
+  height: 2vh;
+}
+#mp_bar
+{
+  background-color: blue;
+  width: 20vw;
+  height: 2vh;
+}
+
+#skill1,#skill2,#elixir
+{
+  width: 4vw;
+  height: 4vw;
+  margin: 0.5vw;
+  background-size: 4vw;
+  float: left;
+}
+
+#skill2
+{
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#skill1_cd,#skill2_cd,#elixir_cd
+{
+  width: 4vw;
+  height: 0vw;
+  margin: 0;
+  background-color: rgba(100,150,200,0.5);
+  float: left;
+}
+
+#skills_bar
+{
+  position: absolute;
+  background-color: white;
+  width: 14vw;
+  height: 5vw;
+  top: 0;
+  left: 79vw;
 }
 
 #player1
@@ -63,7 +110,7 @@ body
 }
 
 .mob {
-	
+
 }
 
 .playerRenderer1{
@@ -88,6 +135,21 @@ body
   left: -2vw;
 }
 
+#skillRenderer1{
+  overflow: hidden;
+  position: absolute;
+
+  width: 15vw;
+  height: auto;
+}
+
+#skillRenderer2{
+  overflow: hidden;
+  position: absolute;
+
+  width: 15vw;
+  height: auto;
+}
 
 
 .flipped {

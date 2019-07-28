@@ -3,15 +3,27 @@
 var isMoving = false;
 var p1_Position = 0;
 var p2_Position = 0;
-var p1_HP = 100;
-var p2_HP = 500;
+
+var p1_HP;
+var p1_MP;
+var p1_HP_max;
+var p1_MP_max;
+var p1_MS;
+var p1_AD;
+var p1_AP;
+var p1_CDR;
+
+var p1_weapon;
+var p1_outfit;
 
 var isAtacking = false;
+var skill1_isReady = true;
+var skill2_isReady = true;
+var elixir_isReady = true;
 
 var renderer1 = '.playerRenderer1';
 var renderer2 = '.playerRenderer2';
 
-var mapId = 0;
 
 var mobQueue = 0;
 var spawnPos = 100;
@@ -19,7 +31,59 @@ var arrMobs = [];
 
 var finish_point = 200;
 
+var stats;
 
+function getStats() {
+
+	$.ajax({
+		type: "POST",
+		url: "stats.php",
+		data: { request: 'set' }
+	}).done(function( result ) {
+
+		stats = JSON.parse(result);
+
+		var bonusAD=0;
+		var bonusAP=0;
+		var bonusHP=0;
+		var bonusMP=0;
+		var bonusCDR=0;
+		var bonusMS=0;
+
+	if(items[stats['outfit']]!=null)	{
+		bonusAD += items[stats['outfit']].ad;
+		bonusAP += items[stats['outfit']].ap;
+		bonusHP += items[stats['outfit']].hp;
+		bonusMP += items[stats['outfit']].mp;
+		bonusCDR += items[stats['outfit']].cdr;
+		bonusMS += items[stats['outfit']].ms;
+	}
+	if(items[stats['weapon']]!=null)	{
+		bonusAD += items[stats['weapon']].ad;
+		bonusAP += items[stats['weapon']].ap;
+		bonusHP += items[stats['weapon']].hp;
+		bonusMP += items[stats['weapon']].mp;
+		bonusCDR += items[stats['weapon']].cdr;
+		bonusMS += items[stats['weapon']].ms;
+	}
+
+		p1_HP = Number(stats['hp']) + bonusHP;
+		p1_MP = Number(stats['mp']) + bonusMP;
+		p1_MS = Number(stats['ms']) + bonusMS;
+		p1_AD = Number(stats['ad']) + bonusAD;
+		p1_CDR = Number(stats['cdr']) + bonusCDR;
+		p1_AP = Number(stats['ap']) + bonusAP;
+
+		p1_HP_max = p1_HP;
+		p1_MP_max = p1_MP;
+
+		$('#skill1').css('background-image', 'url('+items[stats['skill1']].img+')');
+		$('#skill2').css('background-image', 'url('+items[stats['skill2']].img+')');
+		$('#elixir').css('background-image', 'url('+items[stats['elixir']].img+')');
+	});
+	}
+
+getStats();
 
 ///////////////////////////////////////////
 
@@ -38,43 +102,139 @@ $(document).keydown(keyboardSupport);
 function keyboardSupport(event)
 {
 	var direction;
-  
-	if((event.key == 'a'|| event.key == 'A')&&!isMoving) {
-		if(p1_Position > 0) p1_Position -= 10;
-		
-		var data = {position: p1_Position, direction: 1 , senderId: myId};
+
+
+	if((event.keyCode == '37') && !isMoving) {
+		if(p1_Position > 0) p1_Position -= p1_MS;
+
+		var data = {position: p1_Position, direction: 1 , senderId: myId, speed: 250};
 		Player.move(data);
 		isMoving = true;
 	}
-  
-	else if((event.key == 'd'|| event.key == 'D')&&!isMoving) {
-		if(p1_Position < finish_point) p1_Position+=10;
-		
-		var data = {position: p1_Position, direction: -1 , senderId: myId};
+
+	else if((event.keyCode == '39') && !isMoving) {
+		if(p1_Position < finish_point) p1_Position+=p1_MS;
+
+		var data = {position: p1_Position, direction: -1 , senderId: myId, speed: 250};
 		Player.move(data);
 		mobSpawner();
 		isMoving = true;
 	}
-	
-	else if(event.keyCode == 32 && isAtacking == false) {		
-				
-		for(let i=0;i<arrMobs.length; i++){
-			
-			var mobPos = $( arrMobs[i].ID ).position().left*100/window.innerWidth;
-			
-			if(Math.abs(mobPos-p1_Position-30)<=16){
-				
+
+	else if(event.keyCode == 32 && isAtacking == false) {
+
+		var atackedMobs = new Array();
+
+		for(var mob in arrMobs)	{
+
+			var mobPos = $( arrMobs[mob].ID ).position().left*100/window.innerWidth;
+
+			if(Math.abs(mobPos-p1_Position-30)<=16)	{
+
 				isAtacking = true;
-				
-				var data = {mobId: i, damage: 50};
-				Player.atack(data);
-				
-				console.log(Math.abs(mobPos-p1_Position-30));
+				atackedMobs.push(arrMobs[mob].ID);
 			}
-		}			
+		}
+		var data = {mobs: atackedMobs, damage: p1_AD};
+		Player.atack(data);
 	}
-	
-	if(p1_Position >= finish_point) console.log("Level completed!"); // finish game
+
+	else if(event.keyCode == 90 && isAtacking == false)
+	{
+		if(p1_MP>=items[stats['skill1']].mp_cost && skill1_isReady)
+		{
+			p1_MP-=items[stats['skill1']].mp_cost;
+			var mp_fill=(p1_MP * 20)/p1_MP_max;
+			$('#mp_bar').css('width',mp_fill+'vw');
+
+				data = {casterId: myId, skillName: stats['skill1'], casterPos: p1_Position};
+			Player.castSkill(data);
+			skill1_isReady = false;
+
+			$('#skill1_cd').animate({
+				left: 0
+		  },{
+		    duration: items[stats['skill1']].cd,
+		    complete: function () {
+						skill1_isReady = true;
+		      },
+		    progress: function(animation, progress, msRemaining) {
+		       	$('#skill1_cd').css('height', (4-progress*4)+'vw');
+		      }
+		  });
+		}
+	}
+
+	else if(event.keyCode == 88 && isAtacking == false)
+	{
+		if(p1_MP>=items[stats['skill2']].mp_cost && skill2_isReady)
+		{
+			p1_MP-=items[stats['skill2']].mp_cost;
+			var mp_fill=(p1_MP * 20)/p1_MP_max;
+			$('#mp_bar').css('width',mp_fill+'vw');
+
+
+			data = {casterId: myId, skillName: stats['skill2'], casterPos: p1_Position};
+			Player.castSkill(data);
+			skill2_isReady = false;
+
+			$('#skill2_cd').animate({
+				left: 0
+			},{
+				duration: items[stats['skill1']].cd,
+				complete: function () {
+						skill2_isReady = true;
+					},
+				progress: function(animation, progress, msRemaining) {
+						$('#skill2_cd').css('height', (4-progress*4)+'vw');
+					}
+			});
+		}
+	}
+
+	else if(event.keyCode == 67 && isAtacking == false && elixir_isReady)
+	{
+		elixir_isReady = false;
+
+		switch (items[stats['elixir']].statType) {
+			case 'hp':
+				p1_HP+=items[stats['elixir']].amount;
+				if(p1_HP>p1_HP_max) p1_HP = p1_HP_max;
+				var hp_fill=(p1_HP * 20)/p1_HP_max;
+				$('#hp_bar').css('width',hp_fill+'vw');
+				break;
+		  case 'mp':
+				p1_MP+=items[stats['elixir']].amount;
+				if(p1_MP>p1_MP_max) p1_MP = p1_MP_max;
+				var mp_fill=(p1_MP * 20)/p1_MP_max;
+				$('#mp_bar').css('width',mp_fill+'vw');
+				break;
+			case 'ad':
+				p1_AD+=items[stats['elixir']].amount;
+				break;
+			case 'ap':
+				p1_AP+=items[stats['elixir']].amount;
+				break;
+			default:
+		}
+
+		$('#elixir_cd').animate({
+			left: 0
+		},{
+			duration: items[stats['elixir']].duration,
+			complete: function () {
+					elixir_isReady = true;
+				},
+			progress: function(animation, progress, msRemaining) {
+					$('#elixir_cd').css('height', (4-progress*4)+'vw');
+				}
+		});
+	}
+
+	if(p1_Position >= finish_point)
+	{
+		Player.won();
+	}
 }
 
 ///////////////////////////////////////////
@@ -82,52 +242,52 @@ function keyboardSupport(event)
 
 //// REACTION NODE FUNCTIONS ////
 
-function setImages(){	
+function setImages(){
 	if(myId == 2){
 		$(".playerRenderer1").before($(".playerRenderer2"));
 		$("#game_background").after($(".playerRenderer1"));
-		
-		
+
+
 		renderer1 = '.playerRenderer2';
 		renderer2 = '.playerRenderer1';
 	}
 }
 
-function Move(data){	
-	if(data.senderId == myId) {
+function castSkill(data)	{;
+	items[data.skillName].skillEffect(data);
+}
 
+function Move(data){
+	if(data.senderId == myId) {
 		$('#gameObjects').animate(
 				{ left: '-'+data.position+'vw'},
-				{duration: 250,
+				{duration: data.speed,
 				easing: 'linear'
 				}
 			);
-		
+
 		if(data.direction>0)
 			$(renderer1).addClass('flipped');
 		else
 			$(renderer1).removeClass('flipped');
-	} 
-	
+	}
+
 	else {
-		
-	p2_Position = 30+data.position
-console.log(p2_Position);	
-		
+
+	p2_Position = 30+data.position;
+
 	$(renderer2).animate(
 			{ left: '+'+p2_Position+'vw'},
 			{duration: 250,
 			easing: 'linear'
 			}
-		);	
-	
+		);
+
 		if(data.direction>0)
 			$(renderer2).addClass('flipped');
 		else
 			$(renderer2).removeClass('flipped');
 	}
-	
-	console.log(data.position);
 }
 
 function moveMob(data){
@@ -136,35 +296,48 @@ function moveMob(data){
 }
 
 function addMob(data){
-	$('#gameObjects').prepend('<img id="'+data.mob.name+data.mobQueue+'" class="'+data.mob.name+' mob" src="'+data.mob.img+'" />');	
-	$( data.mob.ID ).css('left', data.spawnPos+'vw');	
-	
-	arrMobs.push(data.mob);
+	$('#gameObjects').prepend('<img id="'+data.mob.name+data.mobQueue+'" class="'+data.mob.name+' mob" src="'+data.mob.img+'" />');
+	$( data.mob.ID ).css('left', data.spawnPos+'vw');
+
+	arrMobs[data.mob.ID]=data.mob;
 }
 
-function removeMob(id){
-	$( arrMobs[id].ID ).detach();
-		
-	arrMobs.splice(id, 1);
-	console.log(arrMobs);
-}
 
 function mobAtack(data){
-	if(data.target==1) {p1_HP-=data.mob.damage;}
-	else {p2_HP-=data.mob.damage;}
-	
-	if(p2_HP<=0||p1_HP<=0) console.log("Game lost...");
+	if(data.target==myId) {
+		p1_HP-=data.mob.damage;
+		var hp_fill=(p1_HP * 20)/p1_HP_max;
+		$('#hp_bar').css('width',hp_fill+'vw');
+	}
+	if(p1_HP<=0) {
+		Player.lost('lost');
+	}
+}
+
+function gameLost(data){
+	console.log("Game lost...");
+	location.replace("profile.php");
+}
+
+function gameWon(){
+	console.log("Game won!");
+	location.replace("profile.php");
 }
 
 function dealDamage(data){
-	console.log(data.mobId);
-	if(arrMobs[data.mobId] != null) {
-		arrMobs[data.mobId].health -= data.damage;
-		$(arrMobs[data.mobId].ID).animate({left: '+=4vw'},{duration: 100});
-		if(arrMobs[data.mobId].health <= 0) {
-			removeMob(data.mobId);
+	console.log(data.mobs);
+	for (var i=0; i<data.mobs.length; i++) {
+		if(arrMobs[data.mobs[i]] != null) {
+			console.log(arrMobs[data.mobs[i]].health);
+			arrMobs[data.mobs[i]].health -= data.damage;
+			$(arrMobs[data.mobs[i]].ID).animate({left: '+=4vw'},{duration: 100});
+		}
+		if(arrMobs[data.mobs[i]].health <= 0) {
+			$( arrMobs[data.mobs[i]].ID ).detach();
+			delete arrMobs[arrMobs[data.mobs[i]].ID];
 		}
 	}
+
 	isAtacking = false;
 }
 
@@ -173,46 +346,32 @@ function dealDamage(data){
 //// MAP CONTROL ////
 
 function setMap()
-{		
-	if(current_mapName == "BloodyIce") mapId = 0;
-	else if(current_mapName == "DesertScream") mapId = 1;
-	else if(current_mapName == "GreenDespair") mapId = 1;
-	else if(current_mapName == "ParadiseCity") mapId = 1;
-	
-	if(myId==2)
-	{
-		if(localStorage.getItem("mapName") == "BloodyIce") mapId = 0;
-		else if(localStorage.getItem("mapName") == "DesertScream") mapId = 1;
-		else if(localStorage.getItem("mapName") == "GreenDespair") mapId = 1;
-		else if(localStorage.getItem("mapName") == "ParadiseCity") mapId = 1;
-	}
-	
+{
 	$("#game_background").attr("src",maps[mapId].background);
-
 }
 
 function clone(obj) {
-    if (null == obj || "object" != typeof obj) return obj;
-    var copy = obj.constructor();
-    for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-    }
-    return copy;
+		if (null == obj || "object" != typeof obj) return obj;
+		var copy = obj.constructor();
+		for (var attr in obj) {
+				if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+		}
+		return copy;
 }
 
 function spawnMob(mobType) {
 	var mob = clone(mobType);
 	spawnPos = 100 + maps[mapId].spawn_pos[mobQueue];
 	mob.ID = '#'+ mob.name + mobQueue;
-	
+
 	data = {mob: mob, mobQueue: mobQueue, spawnPos: spawnPos};
 	Mob.spawn(data);
 }
 
 function mobSpawner() {
-	if(myId == 1 && p1_Position == maps[mapId].spawn_pos[mobQueue]) {
+	if(p1_Position >= maps[mapId].spawn_pos[mobQueue]) {
 		spawnMob(maps[mapId].spawn_mob[mobQueue]);
-		mobQueue++;		
+		mobQueue++;
 	}
 }
 
@@ -225,13 +384,13 @@ var distance = -9.72;
 var maxFrame = 7;
 
 var anim = setInterval(function() {
-  var frame = curframe * distance;
-  curframe++;
-  if(curframe > maxFrame)
-  {
-    curframe = 0;
-  }
-  $('#player1').css({left: frame+'vw'});
+	var frame = curframe * distance;
+	curframe++;
+	if(curframe > maxFrame)
+	{
+		curframe = 0;
+	}
+	$('#player1').css({left: frame+'vw'});
 }, 70);
 
 
@@ -240,23 +399,24 @@ var distance2 = -13;
 var maxFrame2 = 4;
 
 var anim2 = setInterval(function()	{
-  var frame = curframe2 * distance2;
-  curframe2++;
-  if(curframe2 > maxFrame2)
-  {
-    curframe2 = 0;
-  }
-  $('#player2').css({left: frame+'vw'});
+	var frame = curframe2 * distance2;
+	curframe2++;
+	if(curframe2 > maxFrame2)
+	{
+		curframe2 = 0;
+	}
+	$('#player2').css({left: frame+'vw'});
 }, 70);
 
 var mobMovement = setInterval(function() {
-	if(myId == 1 && arrMobs.length>0) {
-		for(let i=0; i<arrMobs.length; i++) {
-			var _mob = arrMobs[i];
+	if(myId == 1) {
+		for(var mob in arrMobs) {
+
+			var _mob = arrMobs[mob];
 			var position = $( _mob.ID ).position().left*100/window.innerWidth;
-		
+
 			var target;
-			
+
 			if(Math.abs(p1_Position - position + 30) <= Math.abs(p2_Position - position + 30)) {
 				target = {
 					position: p1_Position,
@@ -269,7 +429,7 @@ var mobMovement = setInterval(function() {
 					player: 2
 				};
 			}
-		
+
 			if(Math.abs(target.position - position + 30)>8) {
 				if(target.position - position+30<0) {
 						var data = {mob: _mob, direction: 1};
@@ -278,13 +438,13 @@ var mobMovement = setInterval(function() {
 				else {
 						var data = {mob: _mob, direction: 0};
 						Mob.move(data);
-					}			
+					}
 			}
 			else {
 				var data = {mob: _mob, target: target.player};
 				Mob.atack(data);
 			}
-		}	
+		}
 	}
 }, 700);
 

@@ -105,7 +105,7 @@
 		</p>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
-		<a href ="#"><button type="button" class="btn btn-outline-secondary btn-lg">Github source code</button></a>
+		<a href ="https://github.com/kaczmarekmilosz94/opss2-projekt"><button type="button" class="btn btn-outline-secondary btn-lg">Github source code</button></a>
 	</div>
 </div>
 </div>
@@ -149,7 +149,7 @@
 		<h2>Social media</h2>
 	</div>
 	<div class="col-12 social padding">
-		<a href="#"><i class="fab fa-facebook"></i></a>
+		<a href="https://www.facebook.com/Fizyka.UMK"><i class="fab fa-facebook"></i></a>
 		<a href="#"><i class="fab fa-twitter"></i></a>
 		<a href="#"><i class="fab fa-instagram"></i></a>
 		<a href="#"><i class="fab fa-youtube"></i></a>

@@ -14,6 +14,6 @@ var golem = {
 	img: "images/golem.png",
 	health: 200,
 	damage: 20,
-	speed: 2,	
+	speed: 2,
 	position: 0
 };

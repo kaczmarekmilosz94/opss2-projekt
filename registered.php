@@ -69,8 +69,8 @@
 		}
 		else if($password == $password2)
 		{
-			$sql = "INSERT INTO users (username, password, email)
-			VALUES('$username','$password','$email')";
+			$sql = "INSERT INTO users (username, password, email, nickname, class)
+			VALUES('$username','$password','$email',null, null)";
 
 			if($db->query($sql))
 			{

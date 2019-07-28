@@ -9,20 +9,16 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-//// functions
-
-var PhotonSide = {
-
-	createNewRoom: null,
-	joinThisRoom: null
-};
 
 var Player = {
+  won: null,
 	move: null,
 	jump: null,
-	atack: null
+	atack: null,
+  lost: null,
+  castSkill: null,
+  startGame: null
 };
-
 var Mob = {
 	move: null,
 	spawn: null,
@@ -42,24 +38,24 @@ var DemoAppVersion = this["AppInfo"] && this["AppInfo"]["AppVersion"] ? this["Ap
 var DemoMasterServer = this["AppInfo"] && this["AppInfo"]["MasterServer"];
 var ConnectOnStart = true;
 var DemoLoadBalancing = /** @class */ (function (_super) {
-    __extends(DemoLoadBalancing, _super);
+  __extends(DemoLoadBalancing, _super);
 
-
-
-   function DemoLoadBalancing() {
+  function DemoLoadBalancing() {
         var _this = _super.call(this, DemoWss ? Photon.ConnectionProtocol.Wss : Photon.ConnectionProtocol.Ws, DemoAppId, DemoAppVersion) || this;
+
         _this.logger = new Exitgames.Common.Logger("Demo:");
-
-
         _this.logger.info("Init", _this.getNameServerAddress(), DemoAppId, DemoAppVersion);
         _this.setLogLevel(Exitgames.Common.Logger.Level.INFO);
+
         return _this;
     }
-    DemoLoadBalancing.prototype.start = function () {
 
-		this.setupUI();
-		this.setupControl();
-        // connect if no fb auth required
+  DemoLoadBalancing.prototype.start = function () {
+
+		    this.setupUI();
+		    this.setupControl();
+        this.myActor().setName(playerName);
+
         if (ConnectOnStart) {
             if (DemoMasterServer) {
                 this.setMasterServerAddress(DemoMasterServer);
@@ -67,26 +63,21 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
             }
             else {
                 this.connectToRegionMaster("EU");
-				$("#createRoomButton").hide();
             }
         }
     };
-
-
-
-    DemoLoadBalancing.prototype.onError = function (errorCode, errorMsg) {
+  DemoLoadBalancing.prototype.onError = function (errorCode, errorMsg) {
         this.output("Error " + errorCode + ": " + errorMsg);
     };
+  DemoLoadBalancing.prototype.onEvent = function (code, data, options) {
 
-
-    DemoLoadBalancing.prototype.onEvent = function (code, data, options) {
-
-        switch (code) {
-            case 1:
-                console.log("test1");
-                break;
+    switch (code) {
+      case 1:
+        gameWon();
+        break;
 			case 2:
 				Move(data);
+        console.log(data);
 				break;
 			case 3:
 				moveMob(data);
@@ -100,132 +91,192 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
 			case 6:
 				dealDamage(data);
 				break;
-            default:
+      case 7:
+        gameLost(data);
+        break;
+      case 8:
+        castSkill(data);
+        break;
+      case 9:
+        $('#btn_submit').click();
+        break;
+      default:
         }
     };
-
-
-
-    DemoLoadBalancing.prototype.onStateChange = function (state) {
+  DemoLoadBalancing.prototype.onStateChange = function (state) {
         var LBC = Photon.LoadBalancing.LoadBalancingClient;
 
+        switch (LBC.StateToName(this.state)) {
+          case 'JoinedLobby':
+            $('#roomSlotsContainer').show();
+            $('#playerSlotsContainer').empty();
+            $('#playerSlotsContainer').hide();
+            $('#createRoomButton').show();
+            $('#leaveRoomButton').hide();
+            $('#playerSlotsContainer').empty();
+            $('#startGame').hide();
+            $('#playerId').val(0);
+            break;
+          case 'Joined':
+            $('#roomSlotsContainer').hide();
+            $('#playerSlotsContainer').show();
+            $('#createRoomButton').hide();
+            $('#leaveRoomButton').show();
+            $('#startGame').show();
+
+            break;
+          default:
+
+        }
     };
-    DemoLoadBalancing.prototype.objToStr = function (x) {
+  DemoLoadBalancing.prototype.objToStr = function (x) {
         var res = "";
         for (var i in x) {
             res += (res == "" ? "" : " ,") + i + "=" + x[i];
         }
         return res;
     };
+  DemoLoadBalancing.prototype.updateRoomInfo = function () {
 
-
-
-    DemoLoadBalancing.prototype.updateRoomInfo = function () {
-		console.log("room info update");
     };
-    DemoLoadBalancing.prototype.onActorPropertiesChange = function (actor) {
+  DemoLoadBalancing.prototype.onActorJoin = function (actor) {
+
+    try {
+      $('#playerSlotsContainer').empty();
+      var _myId = 0;
+      for(var _actor in this.myRoomActors()) {
+        showPlayer(this.myRoomActors()[_actor].name);
+        _myId++;
+      }
+
+      if($('#playerId').val()==0) {
+        $('#playerId').val(_myId);
+      }
+      console.log($('#playerId').val());
+
+    } catch (e) {
+
+    } finally {
+
+    }
+  }
+  DemoLoadBalancing.prototype.onActorLeave = function (actor, cleanup) {
+
+    try {
+      if(!actor.isLocal) {
+        $('#playerSlotsContainer').empty();
+
+        for(var _actor in this.myRoomActors()) {
+          showPlayer(this.myRoomActors()[_actor].name);
+        }
+
+        var _myId = $('#playerId').val(1);
+        console.log($('#playerId').val());
+
+      }
+    } catch (e) {
+
+    } finally {
+
+    }
+  }
+
+  DemoLoadBalancing.prototype.onRoomListUpdate = function (rooms, roomsUpdated, roomsAdded, roomsRemoved) {
+      _showRooms(rooms);
     };
-    DemoLoadBalancing.prototype.onMyRoomPropertiesChange = function () {
+  DemoLoadBalancing.prototype.onRoomList = function (rooms) {
+      _showRooms(rooms);
+      try {
+        startGame();
+        setMap();
+        setImages();
+      } catch (e) {
+
+      } finally {
+
+      }
     };
-    DemoLoadBalancing.prototype.onRoomListUpdate = function (rooms, roomsUpdated, roomsAdded, roomsRemoved) {
-        _rooms = rooms;
-    };
-    DemoLoadBalancing.prototype.onRoomList = function (rooms) {
-
-		var _this = this;
-
-		console.log("got room list");
-
-		_rooms = rooms;
-
-
-		if(localStorage.getItem("roomName")=="DesertScream" ||
-       localStorage.getItem("roomName")=="GreenDespair" ||
-       localStorage.getItem("roomName")=="BloodyIce" ||
-       localStorage.getItem("roomName")=="ParadiseCity") {
-
-       var rand = Math.floor((Math.random() * 99999) + 10000);
-	   current_mapName = localStorage.getItem("roomName");
-
-			_this.createRoom(localStorage.getItem("roomName") + " " + rand);
-			myId = 1;
-		}else {
-			_this.joinRoom(localStorage.getItem("roomName"));
-			myId = 2;
-
-			setImages();
-		}
-    };
-
-    DemoLoadBalancing.prototype.onJoinRoom = function () {
-		setMap();
+  DemoLoadBalancing.prototype.onJoinRoom = function () {
+      $("#roomName").val(this.myRoom().name);
     };
 
 	DemoLoadBalancing.prototype.setupControl = function () {
-		var _this = this;
+		  var _this = this;
 
-		Player.move = function(data)
-		{
+      Player.won = function(data)		{
+			_this.raiseEvent(1, data, { receivers: 1 });
+		};
+		  Player.move = function(data)		{
 			_this.raiseEvent(2, data, { receivers: 1 });
 		};
-		Mob.move = function(data)
-		{
+		  Mob.move = function(data)		{
 			_this.raiseEvent(3, data, { receivers: 1 });
 		};
-		Mob.spawn = function(data)
-		{
+		  Mob.spawn = function(data)		{
 			_this.raiseEvent(4, data, { receivers: 1 });
 		};
-		Mob.atack = function(data)
-		{
+		  Mob.atack = function(data)		{
 			_this.raiseEvent(5, data, { receivers: 1 });
 		};
-		Player.atack = function(data)
-		{
+		  Player.atack = function(data)		{
 			_this.raiseEvent(6, data, { receivers: 1 });
 		};
-	};
+      Player.lost = function(data)    {
+      _this.raiseEvent(7, data, { receivers: 1 });
+    };
+      Player.castSkill = function(data)    {
+      _this.raiseEvent(8, data, { receivers: 1 });
+    };
+      Player.startGame = function()    {
+      _this.raiseEvent(9, null, { receivers: 1 });
+    };
 
+	};
 	DemoLoadBalancing.prototype.setupUI = function () {
-		var _this = this;
 
+    $('#startGame').hide();
+    $('#roomSlotsContainer').show();
+    $('#playerSlotsContainer').hide();
 
+    $('#createRoomButton').show();
+    $('#leaveRoomButton').hide();
 	};
 
-    return DemoLoadBalancing;
+  return DemoLoadBalancing;
+
 }(Photon.LoadBalancing.LoadBalancingClient));
+
 var demo;
+
 window.onload = function () {
     demo = new DemoLoadBalancing();
     demo.start();
 };
 
-function showRooms(name)
-{
-		console.log("got room list update");
+function _showRooms(rooms)  {
+		console.log("Got room list update!");
+    $("#roomSlotsContainer").empty();
 
-		$("#mapUI").hide();
-		$("#createRoomButton").show();
-      	$("#roomSlotsContainer").empty();
-		$("#createRoomButton").attr('onclick', 'startRoom("'+name+'")');
+	  if(rooms.length>0) {
+      for(var i=0;i<rooms.length;i++)	{
+        //var slot = $('<form action="bloody_ice.php" method="POST"><input type="text" name="room_name" value="'+rooms[i].name+'"><input type="submit" value="Join room"></form>');
+        var slot = $('<input type="button" value="'+rooms[i].name+'" onclick="_joinRoom(\''+rooms[i].name+'\')"/>');
 
-		    for(var i=0;i<_rooms.length;i++)	{
-
-					var words;
-
-					for (var j=0;j<_rooms[i].name.length;j++)
-					{
-						words = _rooms[i].name.split(" ");
-					}
-			        if(words[0] == name)
-					{
-						var slot= $('<input type="button" value="'+_rooms[i].name+'" onclick="startRoom(\''+_rooms[i].name+'\')"/>');
-
-						localStorage.setItem("mapName",name);
-
-						$("#roomSlotsContainer").append(slot);
-					}
-		    }
+        $("#roomSlotsContainer").append(slot);
+  		}
+    }
 }
-
-//PhotonSide.joinThisRoom(localStorage.getItem("roomName"));
+function _createRoom() {
+    console.log('creating room');
+    demo.createRoom();
+}
+function _joinRoom(roomName) {
+    console.log('joining');
+    demo.joinRoom(roomName);
+}
+function _startGame(roomName) {
+    demo.joinRoom(roomName, {createIfNotExists: true});
+}
+function _leaveRoom(){
+  demo.leaveRoom();
+}
