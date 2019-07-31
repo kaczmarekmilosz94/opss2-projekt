@@ -1,0 +1,342 @@
+body {
+  background: url('../images/profile/profile_background.png') no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  text-align:center;
+  box-sizing:border-box;
+  font-family:"Lato",Sans-serif;
+}
+
+#worldMap
+{
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background: url('../images/map.jpg') no-repeat;
+  background-size: 66vw auto;
+  background-position:30vw 5vw;
+}
+
+#creatorPanel
+{
+  position: absolute;
+  background-image: url('../images/profile/profile_portret.png');
+  background-size: cover;
+  height: 43.9vw;
+  width: 26vw;
+  top: 5vw;
+  left: 4vw;
+  margin: auto;
+  text-align: center;
+}
+
+#mapDescription
+{
+  background-image: url('../images/profile/profile_portret.png');
+  background-size: 20vw 22vw;
+  height: 22vw;
+  width: 20vw;
+  margin-top: 3vw;
+  margin-left: 3vw;
+  text-align: center;
+  font-size: 1.1vw;
+  color: #ededed;
+}
+#mapDescription span
+{
+  margin: 2vw;
+}
+
+#optionsPanel
+{
+  position: absolute;
+  top:30vw;
+  left: 5.3vw;
+}
+
+#createRoomButton
+{
+  top: 13vh;
+  left: 40vw;
+  width: 10vw;
+  height: 3vw;
+
+  background:url('../images/profile/profile_button.png'); no-repeat;
+  background-size: cover;
+  font-size: 1.3vw;
+  color: #dedede;
+  text-shadow: 0.1em 0.1em #333333;
+}
+
+#leaveRoomButton
+{
+  position: absolute;
+  top: 40vw;
+  left: 42vw;
+  width: 16vw;
+  height: 4vw;
+
+  background:url('../images/profile/profile_button.png'); no-repeat;
+  background-size: cover;
+  font-size: 1.4vw;
+  color: #dedede;
+  text-shadow: 0.1em 0.1em #333333;
+}
+
+#btn_start
+{
+  position: absolute;
+  top: 4vw;
+  left: 0vw;
+  width: 16vw;
+  height: 4vw;
+
+  background:url('../images/profile/profile_button.png'); no-repeat;
+  background-size: cover;
+  font-size: 1.4vw;
+  color: #dedede;
+  text-shadow: 0.1em 0.1em #333333;
+}
+
+#startForm
+{
+  position: absolute;
+  top: 15vw;
+  left: 42vw;
+  width: 16vw;
+  height: 4vw;
+}
+
+#playerSlotsContainer
+{
+  position: absolute;
+  width: 40vw;
+  height: 14vw;
+  left: 30vw;
+  top: 24vw;
+  background: url('../images/profile/map_list2.png') no-repeat;
+  background-size: 40vw 13vw;
+  font-size: 2.9vw;
+  color: #dedede;
+  text-shadow: 0.1em 0.1em #333333;
+}
+
+#nameRoomfield
+{
+  margin: 1vw;
+  width: 90%;
+}
+
+#roomSlotsContainer
+{
+  position: absolute;
+  margin: 5%;
+  margin-top: 10%;
+  width: 90vw;
+  height: 38vw;
+  background: url('../images/profile/map_list2.png') no-repeat;
+  background-size: 90vw 38vw;
+  font-size: 2.9vw;
+  color: #dedede;
+  text-shadow: 0.1em 0.1em #333333;
+}
+
+#roomStatsContainer
+{
+  position: absolute;
+  margin: 5%;
+  margin-top: 2%;
+  width: 90vw;
+  height: 8vw;
+  background: url('../images/profile/map_list.png') no-repeat;
+  background-size: 90vw 8vw;
+  font-size: 3vw;
+  color: #dedede;
+  text-shadow: 0.1em 0.1em #333333;
+  text-align: center;
+}
+
+span
+{
+  display: inline-block;
+  margin-top: 1.5vw;
+  margin-left: 3.5vw;
+  margin-right: 3.5vw;
+}
+
+#btn_join
+{
+  height: 4vw;
+  width: 10vw;
+  margin-left: 4vw;
+  background:url('../images/profile/profile_button.png'); no-repeat;
+  background-size: cover;
+  font-size: 2.1vw;
+  color: #dedede;
+  text-shadow: 0.1em 0.1em #333333;
+}
+#showWorldButton
+{
+  position: absolute;
+  left: 40vw;
+  top: 91vh;
+  width: 20vw;
+  height: 5vw;
+  background:url('../images/profile/profile_button.png'); no-repeat;
+  background-size: cover;
+  font-size: 2.1vw;
+  color: #dedede;
+  text-shadow: 0.1em 0.1em #333333;
+}
+
+#bi
+{
+  position: absolute;
+  left: 57vw;
+  top: 12vw;
+  width: 15vw;
+  height: auto;
+}
+#ds
+{
+  position: absolute;
+  left: 35vw;
+  top: 28vw;
+  width: 15vw;
+  height: auto;
+}
+#gd
+{
+  position: absolute;
+  left: 70vw;
+  top: 20vw;
+  width: 15vw;
+  height: auto;
+}
+#pc
+{
+  position: absolute;
+  left: 50vw;
+  top: 20vw;
+  width: 15vw;
+  height: auto;
+}
+
+.box{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform : translate(-50% ,-50%);
+}
+
+.btn:link,
+.btn:visited{
+  text-decoration: none;
+  text-transform:uppercase;
+  position:relative;
+  top:0;
+  left:0;
+  padding:20px 40px;
+  display:inline-block;
+  transition: all .5s;
+}
+
+.btn-white{
+  background:#baedff;
+  color: white !important;
+  font-weight: bold;
+  font-size: 1.5vw;
+}
+
+.btn-green{
+  background:#3ec978;
+  color: white !important;
+  font-weight: bold;
+  font-size: 1.5vw;
+}
+
+.btn-yellow{
+  background:#f5cd4c;
+  color: white !important;
+  font-weight: bold;
+  font-size: 1.5vw;
+}
+
+.btn-pink{
+  background:#e2c1e8;
+  color: white !important;
+  font-weight: bold;
+  font-size: 1.5vw;
+}
+
+.btn:hover{
+   box-shadow:0px 10px 10px rgba(0,0,0,0.2);
+   transform : translateY(-3px);
+}
+
+.btn:active{
+  box-shadow:0px 5px 10px rgba(0,0,0,0.2)
+  transform:translateY(-1px);
+}
+
+.btn-bottom-animation-1{
+  animation:comeFromBottom 1s ease-out .8s;
+}
+
+.btn::after{
+  content:"";
+  text-decoration: none;
+  text-transform:uppercase;
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  border-radius: 10vw !important;
+  display:inline-block;
+  z-index:-1;
+  transition: all .5s;
+}
+
+.btn-white::after {
+    background: #baedff;
+}
+.btn-green::after {
+    background: #3ec978;
+}
+.btn-yellow::after {
+    background: #f5cd4c;
+}
+.btn-pink::after {
+    background: #e2c1e8;
+}
+
+.btn-animation-1:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+}
+
+@keyframes comeFromBottom{
+  0%{
+    opacity:0;
+    transform:translateY(40px);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+fieldset
+{
+  border: 0;
+}
+label
+{
+  display: block;
+  margin: 30px 0 0 0;
+}
+.overflow
+{
+  height: 200px;
+}

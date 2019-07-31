@@ -10,7 +10,7 @@ function ad_skill_1_effect(caster) {
 
       var mobPos = $( arrMobs[mob].ID ).position().left*100/window.innerWidth;
 
-      if(Math.abs(mobPos-p1_Position-30)<=50)	{
+      if((mobPos-p1_Position-30)<=50 && (mobPos-p1_Position-30)>=0)	{
 
         atackedMobs.push(arrMobs[mob].ID);
       }
@@ -33,7 +33,7 @@ function ad_skill_1_effect(caster) {
   var startPos = caster.casterPos+19
   var targetPos = startPos;
 
-  $('#'+rendererID).css({left: startPos+'vw' ,top: $('.playerRenderer1').position().top-$('#gameObjects').position().top});
+  $('#'+rendererID).css({left: startPos+'vw' ,top: $('#playerRenderer1').position().top-$('#gameObjects').position().top});
 
   $('#'+rendererID).animate({
     left: targetPos+'vw'
@@ -70,7 +70,7 @@ function ap_skill_1_effect(caster) {
   var startPos = caster.casterPos+30
   var targetPos = startPos + 80;
 
-  $('#'+rendererID).css({left: startPos+'vw' ,top: $('.playerRenderer1').position().top-$('#gameObjects').position().top});
+  $('#'+rendererID).css({left: startPos+'vw' ,top: $('#playerRenderer1').position().top-$('#gameObjects').position().top});
 
   if(caster.casterId==myId) {
     p1_Position-=0;
@@ -95,7 +95,7 @@ function ap_skill_1_effect(caster) {
 
           var mobPos = $( arrMobs[mob].ID ).position().left*100/window.innerWidth;
 
-          if((mobPos-fireballPos)<=10)	{
+          if(Math.abs(mobPos-fireballPos)<=2)	{
 
             atackedMobs.push(arrMobs[mob].ID);
 

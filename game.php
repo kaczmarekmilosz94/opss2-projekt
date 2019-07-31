@@ -110,10 +110,10 @@
 		<h2>Social media</h2>
 	</div>
 	<div class="col-12 social padding">
-		<a href="#"><i class="fab fa-facebook"></i></a>
-		<a href="#"><i class="fab fa-twitter"></i></a>
-		<a href="#"><i class="fab fa-instagram"></i></a>
-		<a href="#"><i class="fab fa-youtube"></i></a>
+		<a href="https://www.facebook.com/Fizyka.UMK"><i class="fab fa-facebook"></i></a>
+		<a href="https://twitter.com/UMK_Torun"><i class="fab fa-twitter"></i></a>
+		<a href="https://www.instagram.com/umktorun/?hl=pl"><i class="fab fa-instagram"></i></a>
+		<a href="https://www.youtube.com/channel/UC-ZD4xewND1TJD8cEQE9Eaw"><i class="fab fa-youtube"></i></a>
 	</div>
 </div>
 </div>
@@ -133,22 +133,20 @@
 	<div class="col-md-4">
 		<h5>Other products</h5>
 		<hr class="light">
-		<p>Rocket calculator</p>
-		<p>Photon chat</p>
-		<p>Angle calculator</p>
-		<p>Snake The Game</p>
+		<a href="http://wwwold.fizyka.umk.pl/~296759/rakieta/">Rocket calculator</a></br></br>
+		<a href="https://www.youtube.com/channel/UCURnKLB6e6D3lMFoL_U1MNA">Chronicles of Shinobi</a></br></br>
+		<a href="http://wwwold.fizyka.umk.pl/~296759/kolo/kolo.html">Angle calculator</a></br></br>
+		<a href="http://wwwold.fizyka.umk.pl/~296759/snake/snake.html">Snake The Game</a></br></br>
 	</div>
 	<div class="col-md-4">
 		<h5>Useful links</h5>
 		<hr class="light">
-		<p>Your Account</p>
-		<p>Newsletter</p>
-		<p>Help</p>
-		<p>Home</p>
+		<a href='game.php'>Your account</a></br></br>
+		<a href='index.php'>Home</a></br></br>
 	</div>
 	<div class="col-12">
 		<hr class="light">
-		<h5>© 2019 Copyright: MKProjects.com</h5>
+
 	</div>
 </div>
 </div>

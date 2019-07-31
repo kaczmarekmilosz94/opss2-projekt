@@ -26,6 +26,45 @@ body
   position: absolute;
 }
 
+#gameLog
+{
+  position: absolute;
+  top: 20vw;
+  left: 32vw;
+  height: 20vw;
+  width: 36vw;
+
+  background-image: url('../images/profile/profile_stats.png');
+  background-size: 36vw 20vw;
+
+  color: #dedede;
+  text-shadow: 0.2em 0.2em #333333;
+  text-align: center;
+}
+#gameLog h4
+{
+  margin-top: 10%;
+  display: inline-block;
+  font-size: 2vw;
+}
+#gameLog p
+{
+  display: inline-block;
+  font-size: 1.5vw;
+  margin: 0.3vw;;
+}
+
+#backToRoom
+{
+  width: 10vw;
+  height: 4vw;
+  background:url('../images/profile/profile_button.png'); no-repeat;
+  background-size: cover;
+  font-size: 1.8vw;
+  color: #dedede;
+  text-shadow: 0.1em 0.1em #333333;
+}
+
 #hp_bar
 {
   background-color: red;
@@ -73,7 +112,7 @@ body
   left: 79vw;
 }
 
-#player1
+.Mage
 {
   position: relative;
   height: 12vw;
@@ -82,7 +121,7 @@ body
   left: -8.91vw;
 }
 
-#player2
+.Warrior
 {
   position: relative;
   height: 13vw;
@@ -109,11 +148,8 @@ body
   top: 25vw;
 }
 
-.mob {
 
-}
-
-.playerRenderer1{
+.rendererMage{
   overflow: hidden;
   position: absolute;
 
@@ -124,7 +160,7 @@ body
   left: -2vw;
 }
 
-.playerRenderer2{
+.rendererWarrior{
   overflow: hidden;
   position: absolute;
 

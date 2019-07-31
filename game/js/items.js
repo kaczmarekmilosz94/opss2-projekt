@@ -1,15 +1,15 @@
 var item1 = {
 	name: "Item1",
-	img: "/opss/game/images/items/item1.png",
+	img: "images/items/item1.png",
 	itemType: 'weapon',
 	cost: 100
 };
 
 var sword1 = {
 	name: "Iron Sword",
-	img: "/opss/game/images/items/sword1.png",
+	img: "images/items/sword1.png",
 	itemType: 'weapon',
-	itemDescription: "test1",
+	itemDescription: "Basic Word",
 	cost: 100,
 	ad: 10,
 	ap: 0,
@@ -21,9 +21,9 @@ var sword1 = {
 
 var sword2 = {
 	name: "Frozen Blade",
-	img: "/opss/game/images/items/sword2.png",
+	img: "images/items/sword2.png",
 	itemType: 'weapon',
-	itemDescription: "test2",
+	itemDescription: "Rare Sword",
 	cost: 500,
 	ad: 15,
 	ap: 0,
@@ -35,9 +35,9 @@ var sword2 = {
 
 var sword3 = {
 	name: "Cutlass of King Dice",
-	img: "/opss/game/images/items/sword3.png",
+	img: "images/items/sword3.png",
 	itemType: 'weapon',
-	itemDescription: "test3",
+	itemDescription: "Epic Sword",
 	cost: 2000,
 	ad: 25,
 	ap: 0,
@@ -49,9 +49,9 @@ var sword3 = {
 
 var wand1 = {
 	name: "Iron Wand",
-	img: "/opss/game/images/items/wand1.png",
+	img: "images/items/wand1.png",
 	itemType: 'weapon',
-	itemDescription: "wand1 des",
+	itemDescription: "Basic Wand",
 	cost: 100,
 	ad: 0,
 	ap: 10,
@@ -63,9 +63,9 @@ var wand1 = {
 
 var wand2 = {
 	name: "Frozen Wand",
-	img: "/opss/game/images/items/wand2.png",
+	img: "images/items/wand2.png",
 	itemType: 'weapon',
-	itemDescription: "wand 2 test2",
+	itemDescription: "Rare Wand",
 	cost: 500,
 	ad: 5,
 	ap: 15,
@@ -77,9 +77,9 @@ var wand2 = {
 
 var wand3 = {
 	name: "Wand of King Dice",
-	img: "/opss/game/images/items/wand3.png",
+	img: "images/items/wand3.png",
 	itemType: 'weapon',
-	itemDescription: "test3 wand3",
+	itemDescription: "Epic Wand",
 	cost: 2000,
 	ad: 10,
 	ap: 50,
@@ -91,9 +91,9 @@ var wand3 = {
 
 var armor1 = {
 	name: "Iron Armor",
-	img: "/opss/game/images/items/armor1.png",
+	img: "images/items/armor1.png",
 	itemType: 'outfit',
-	itemDescription: "test1 armor",
+	itemDescription: "Basic Armor",
 	cost: 200,
 	ad: 10,
 	ap: 0,
@@ -105,9 +105,9 @@ var armor1 = {
 
 var armor2 = {
 	name: "Frozen Armor",
-	img: "/opss/game/images/items/armor2.png",
+	img: "images/items/armor2.png",
 	itemType: 'outfit',
-	itemDescription: "test2 armor",
+	itemDescription: "Rare Armor",
 	cost: 1000,
 	ad: 15,
 	ap: 0,
@@ -119,9 +119,9 @@ var armor2 = {
 
 var armor3 = {
 	name: "Armor of King Dice",
-	img: "/opss/game/images/items/armor3.png",
+	img: "images/items/armor3.png",
 	itemType: 'outfit',
-	itemDescription: "armor test3",
+	itemDescription: "Epic Armor",
 	cost: 4000,
 	ad: 25,
 	ap: 0,
@@ -133,9 +133,9 @@ var armor3 = {
 
 var cloak1 = {
 	name: "Iron Cloak",
-	img: "/opss/game/images/items/cloak1.png",
+	img: "images/items/cloak1.png",
 	itemType: 'outfit',
-	itemDescription: "cloak test1",
+	itemDescription: "Basic Cloak",
 	cost: 100,
 	ad: 10,
 	ap: 0,
@@ -147,9 +147,9 @@ var cloak1 = {
 
 var cloak2 = {
 	name: "Frozen Cloak",
-	img: "/opss/game/images/items/cloak2.png",
+	img: "images/items/cloak2.png",
 	itemType: 'outfit',
-	itemDescription: "cloak test2",
+	itemDescription: "Rare Cloak",
 	cost: 1000,
 	ad: 15,
 	ap: 0,
@@ -161,9 +161,9 @@ var cloak2 = {
 
 var cloak3 = {
 	name: "Cloak of King Dice",
-	img: "/opss/game/images/items/cloak3.png",
+	img: "images/items/cloak3.png",
 	itemType: 'outfit',
-	itemDescription: "cloak test3",
+	itemDescription: "Epic Cloak",
 	cost: 4000,
 	ad: 25,
 	ap: 0,
@@ -174,60 +174,60 @@ var cloak3 = {
 };
 
 var hp_potion1 = {
-	img: "/opss/game/images/items/hp_pot1.png",
+	img: "images/items/hp_pot1.png",
 	itemType: 'elixir',
 	statType: 'hp',
-	itemDescription: "test1 elixir hp",
+	itemDescription: "Health Elixir",
 	cost: 50,
 	amount: 300,
 	duration: 5000
 };
 
 var mp_potion1 = {
-	img: "/opss/game/images/items/mp_pot1.png",
+	img: "images/items/mp_pot1.png",
 	itemType: 'elixir',
 	statType: 'mp',
-	itemDescription: "test1 elixir mp",
+	itemDescription: "Mana Elixir",
 	cost: 50,
 	amount: 300,
 	duration: 5000
 };
 
 var ad_potion1 = {
-	img: "/opss/game/images/items/ad_pot1.png",
+	img: "images/items/ad_pot1.png",
 	itemType: 'elixir',
 	statType: 'ad',
-	itemDescription: "test1 elixir ad",
+	itemDescription: "Atack Elixir",
 	cost: 50,
 	amount: 300,
 	duration: 15000
 };
 
 var ap_potion1 = {
-	img: "/opss/game/images/items/ap_pot1.png",
+	img: "images/items/ap_pot1.png",
 	itemType: 'elixir',
 	statType: 'ap',
-	itemDescription: "test1 elixir ap",
+	itemDescription: "Magic Elixir",
 	cost: 50,
 	amount: 300,
 	duration: 15000
 };
 
 var ad_skill_1 = {
-	img: "/opss/game/images/items/ad_skill_1.png",
+	img: "images/items/ad_skill_1.png",
 	itemType: 'skill1',
 	skillEffect: ad_skill_1_effect,
-	itemDescription: "test1 skill ad",
+	itemDescription: "Slash Atack",
 	cost: 200,
 	mp_cost: 50,
 	cd: 1000
 };
 
 var ap_skill_1 = {
-	img: "/opss/game/images/items/ap_skill_1.png",
+	img: "images/items/ap_skill_1.png",
 	itemType: 'skill1',
 	skillEffect: ap_skill_1_effect,
-	itemDescription: "test1 skill ap",
+	itemDescription: "Fireball",
 	cost: 200,
 	mp_cost: 50,
 	cd: 1000

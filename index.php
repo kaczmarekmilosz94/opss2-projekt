@@ -74,15 +74,15 @@
 </ul>
 <div class="carousel-inner">
 	<div class="carousel-item active">
-		<img src="images/background.png">
+		<img src="images/background.jpg">
 		<div class="carousel-caption">
 			<h1 class="display-2">Magic Journey</h1>
 			<hr>
 			<h3>Multiplayer Online Action Game</h3>
 			<br/>
 			<br/>
-			<button type="button" class="btn btn-outline-light btn-lg" href="register.php">Register</button>
-			<button type="button" class="btn btn-primary btn-lg" href="login.php">Play Now!</button>
+			<button type="button" class="btn btn-outline-light btn-lg" onclick="window.location.href='register.php'">Register</button>
+			<button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='login.php'">Play Now!</button>
 		</div>
 	</div>
 	<div class="carousel-item">
@@ -150,9 +150,9 @@
 	</div>
 	<div class="col-12 social padding">
 		<a href="https://www.facebook.com/Fizyka.UMK"><i class="fab fa-facebook"></i></a>
-		<a href="#"><i class="fab fa-twitter"></i></a>
-		<a href="#"><i class="fab fa-instagram"></i></a>
-		<a href="#"><i class="fab fa-youtube"></i></a>
+		<a href="https://twitter.com/UMK_Torun"><i class="fab fa-twitter"></i></a>
+		<a href="https://www.instagram.com/umktorun/?hl=pl"><i class="fab fa-instagram"></i></a>
+		<a href="https://www.youtube.com/channel/UC-ZD4xewND1TJD8cEQE9Eaw"><i class="fab fa-youtube"></i></a>
 	</div>
 </div>
 </div>
@@ -173,21 +173,19 @@
 		<h5>Other products</h5>
 		<hr class="light">
 		<a href="http://wwwold.fizyka.umk.pl/~296759/rakieta/">Rocket calculator</a></br></br>
-		<a href="http://wwwold.fizyka.umk.pl/~296759/photon_test/default.htm">Photon chat</a></br></br>
+		<a href="https://www.youtube.com/channel/UCURnKLB6e6D3lMFoL_U1MNA">Chronicles of Shinobi</a></br></br>
 		<a href="http://wwwold.fizyka.umk.pl/~296759/kolo/kolo.html">Angle calculator</a></br></br>
 		<a href="http://wwwold.fizyka.umk.pl/~296759/snake/snake.html">Snake The Game</a></br></br>
 	</div>
 	<div class="col-md-4">
 		<h5>Useful links</h5>
 		<hr class="light">
-		<p>Your Account</p>
-		<p>Newsletter</p>
-		<p>Help</p>
-		<p>Home</p>
+		<a href='game.php'>Your account</a></br></br>
+		<a href='index.php'>Home</a></br></br>
 	</div>
 	<div class="col-12">
 		<hr class="light">
-		<h5>© 2019 Copyright: MKProjects.com</h5>
+
 	</div>
 </div>
 </div>

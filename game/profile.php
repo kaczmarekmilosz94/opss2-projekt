@@ -56,6 +56,10 @@ $( function() {
 });
 } );
 
+$( function() {
+    $( "#info" ).dialog();
+} );
+
  </script>
 
 </head>
@@ -65,6 +69,15 @@ profile
 
 <div class='portret'>
 
+</div>
+
+<div id="info" title="Welcome!">
+	This is your character profile.</br>
+		Here you can buy equipment (Blacksmith) or skills and potions (Magic shop).</br>
+		Drag and drop items on shop area to sell them.</br>
+		Raise your power by buying skill points (10g each).</br>
+		When you are ready, click on &quotFind Game&quot button to start your journey.</br></br>
+	 Good luck!
 </div>
 
 <div id="dialog">
@@ -77,28 +90,28 @@ profile
 	  </ul>
 	  <div class='tab droppable' id="tabs-1">
 			<ol id="selectable">
-  			<li id='sword1' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/sword1.png"></li>
-				<li id='wand1' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/wand1.png"></li>
-				<li id='armor1' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/armor1.png"></li>
-				<li id='cloak1' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/cloak1.png"></li>
-				<li id='sword2' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/sword2.png"></li>
-				<li id='wand2' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/wand2.png"></li>
-				<li id='armor2' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/armor2.png"></li>
-				<li id='cloak2' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/cloak2.png"></li>
-				<li id='sword3' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/sword3.png"></li>
-				<li id='wand3' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/wand3.png"></li>
-				<li id='armor3' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/armor3.png"></li>
-				<li id='cloak3' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/cloak3.png"></li>
+  			<li id='sword1' class="ui-state-default"><image class="shop_item" src="images/items/sword1.png"></li>
+				<li id='wand1' class="ui-state-default"><image class="shop_item" src="images/items/wand1.png"></li>
+				<li id='armor1' class="ui-state-default"><image class="shop_item" src="images/items/armor1.png"></li>
+				<li id='cloak1' class="ui-state-default"><image class="shop_item" src="images/items/cloak1.png"></li>
+				<li id='sword2' class="ui-state-default"><image class="shop_item" src="images/items/sword2.png"></li>
+				<li id='wand2' class="ui-state-default"><image class="shop_item" src="images/items/wand2.png"></li>
+				<li id='armor2' class="ui-state-default"><image class="shop_item" src="images/items/armor2.png"></li>
+				<li id='cloak2' class="ui-state-default"><image class="shop_item" src="images/items/cloak2.png"></li>
+				<li id='sword3' class="ui-state-default"><image class="shop_item" src="images/items/sword3.png"></li>
+				<li id='wand3' class="ui-state-default"><image class="shop_item" src="images/items/wand3.png"></li>
+				<li id='armor3' class="ui-state-default"><image class="shop_item" src="images/items/armor3.png"></li>
+				<li id='cloak3' class="ui-state-default"><image class="shop_item" src="images/items/cloak3.png"></li>
 			</ol>
 	  </div>
 	  <div class='tab droppable' id="tabs-2">
 			<ol id="selectable2">
-				<li id='hp_potion1' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/hp_pot1.png"></li>
-				<li id='mp_potion1' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/mp_pot1.png"></li>
-				<li id='ad_potion1' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/ad_pot1.png"></li>
-				<li id='ap_potion1' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/ap_pot1.png"></li>
-				<li id='ad_skill_1' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/ad_skill_1.png"></li>
-				<li id='ap_skill_1' class="ui-state-default"><image class="shop_item" src="/opss/game/images/items/ap_skill_1.png"></li>
+				<li id='hp_potion1' class="ui-state-default"><image class="shop_item" src="images/items/hp_pot1.png"></li>
+				<li id='mp_potion1' class="ui-state-default"><image class="shop_item" src="images/items/mp_pot1.png"></li>
+				<li id='ad_potion1' class="ui-state-default"><image class="shop_item" src="images/items/ad_pot1.png"></li>
+				<li id='ap_potion1' class="ui-state-default"><image class="shop_item" src="images/items/ap_pot1.png"></li>
+				<li id='ad_skill_1' class="ui-state-default"><image class="shop_item" src="images/items/ad_skill_1.png"></li>
+				<li id='ap_skill_1' class="ui-state-default"><image class="shop_item" src="images/items/ap_skill_1.png"></li>
   			<li id='empty' class="ui-state-default"></li>
   			<li id='empty' class="ui-state-default"></li>
   			<li id='empty' class="ui-state-default"></li>
@@ -134,35 +147,36 @@ profile
 	</div>
 </div>
 
-<div class='statistics'>
-	<p id='hp'></p>
-	<p id='mp'></p>
-	<p id='ad'></p>
-	<p id='ap'></p>
-	<p id='cdr'></p>
-	<p id='ms'></p>
-</div>
+<div id='characterStats'>
+	<div class='statistics'>
+		<p id='hp'></p>
+		<p id='mp'></p>
+		<p id='ad'></p>
+		<p id='ap'></p>
+		<p id='cdr'></p>
+		<p id='ms'></p>
+	</div>
 
-<div class='attributes'>
-	<div class='keys'>
-		<p>Strength</p>
-		<p>Intelligence</p>
-		<p>Dexterity</p></br>
-		<p>Gold: </p>
-	</div>
-	<div class='values'>
-		<p  id='str'>str</p>
-		<p  id='int'>int</p>
-		<p  id='dex'>dex</p></br>
-		<p  id='gold'>gold</p>
-	</div>
-	<div class='buttons'>
-		<button class='btn_box' onclick="addPoint('str')">+</button></br>
-		<button class='btn_box' onclick="addPoint('int')">+</button></br>
-		<button class='btn_box' onclick="addPoint('dex')">+</button>
+	<div class='attributes'>
+		<div class='keys'>
+			<p>Strength</p>
+			<p>Intelligence</p>
+			<p>Dexterity</p></br>
+			<p>Gold: </p>
+		</div>
+		<div class='values'>
+			<p  id='str'>str</p>
+			<p  id='int'>int</p>
+			<p  id='dex'>dex</p></br>
+			<p  id='gold'>gold</p>
+		</div>
+		<div class='buttons'>
+			<button class='btn_box' onclick="addPoint('str')">+</button></br>
+			<button class='btn_box' onclick="addPoint('int')">+</button></br>
+			<button class='btn_box' onclick="addPoint('dex')">+</button>
+		</div>
 	</div>
 </div>
-
 
 <div class='equipment'>
 	<div class='eq' id='outfit_slot'></div>
@@ -173,8 +187,8 @@ profile
 </div>
 
 
-<form class='btn_start' action="map.php">
-    <input type="submit" value="Go to map" />
+<form action="map.php">
+    <input id='btn_start' type="submit" value="Find Game" />
 </form>
 
 
@@ -201,13 +215,14 @@ function showItem(item) {
 		$('#item_mp').html('<b>Mana:</b> '+items[item].mp);
 		$('#item_cdr').html('<b>Cooldown reduction:</b> '+items[item].cdr+'%');
 		$('#btn_buy').attr("onclick",'buyItem("'+item+'")');
+		$('#btn_buy').html('Buy '+items[item].cost+'g');
 	}
 	else {
-		$('#item_decription').html(items['hp_potion1'].itemDescription);
+		$('#item_decription').html(items[item].itemDescription);
 		$('#itemStats1').hide();
 		$('#itemStats2').hide();
 		$('#btn_buy').show();
-		$('#btn_buy').attr("onclick",'buyItem("'+item+'")');
+		$('#btn_buy').html('Buy '+items[item].cost+'g');
 	}
 }
 

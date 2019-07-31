@@ -21,9 +21,11 @@ var skill1_isReady = true;
 var skill2_isReady = true;
 var elixir_isReady = true;
 
-var renderer1 = '.playerRenderer1';
-var renderer2 = '.playerRenderer2';
+var renderer1 = '#playerRenderer1';
+var renderer2 = '#playerRenderer2';
 
+var p1_class;
+var p2_class;
 
 var mobQueue = 0;
 var spawnPos = 100;
@@ -77,20 +79,24 @@ function getStats() {
 		p1_HP_max = p1_HP;
 		p1_MP_max = p1_MP;
 
-		$('#skill1').css('background-image', 'url('+items[stats['skill1']].img+')');
-		$('#skill2').css('background-image', 'url('+items[stats['skill2']].img+')');
-		$('#elixir').css('background-image', 'url('+items[stats['elixir']].img+')');
+		if(items[stats['skill1']] != null) $('#skill1').css('background-image', 'url('+items[stats['skill1']].img+')');
+		if(items[stats['skill2']] != null) $('#skill2').css('background-image', 'url('+items[stats['skill2']].img+')');
+		if(items[stats['elixir']] != null) $('#elixir').css('background-image', 'url('+items[stats['elixir']].img+')');
+
+		p1_class = stats['class'];
 	});
 	}
 
 getStats();
 
+$('#gameLog').hide();
+
 ///////////////////////////////////////////
 
 //// SET PLAYERS POSITION ////
 
-$('.playerRenderer1').animate({left: '30vw', top: '34vw'});
-$('.playerRenderer2').animate({left: '30vw',top: '34vw'});
+$('#playerRenderer1').animate({left: '30vw', top: '34vw'});
+$('#playerRenderer2').animate({left: '30vw',top: '34vw'});
 
 
 ///////////////////////////////////////////
@@ -117,7 +123,6 @@ function keyboardSupport(event)
 
 		var data = {position: p1_Position, direction: -1 , senderId: myId, speed: 250};
 		Player.move(data);
-		mobSpawner();
 		isMoving = true;
 	}
 
@@ -139,7 +144,7 @@ function keyboardSupport(event)
 		Player.atack(data);
 	}
 
-	else if(event.keyCode == 90 && isAtacking == false)
+	else if(event.keyCode == 90 && isAtacking == false && items[stats['skill1']] != null)
 	{
 		if(p1_MP>=items[stats['skill1']].mp_cost && skill1_isReady)
 		{
@@ -165,7 +170,7 @@ function keyboardSupport(event)
 		}
 	}
 
-	else if(event.keyCode == 88 && isAtacking == false)
+	else if(event.keyCode == 88 && isAtacking == false && items[stats['skill2']] != null)
 	{
 		if(p1_MP>=items[stats['skill2']].mp_cost && skill2_isReady)
 		{
@@ -192,7 +197,7 @@ function keyboardSupport(event)
 		}
 	}
 
-	else if(event.keyCode == 67 && isAtacking == false && elixir_isReady)
+	else if(event.keyCode == 67 && isAtacking == false && elixir_isReady && items[stats['elixir']] != null)
 	{
 		elixir_isReady = false;
 
@@ -242,15 +247,50 @@ function keyboardSupport(event)
 
 //// REACTION NODE FUNCTIONS ////
 
+function setPlayerLook(data) {
+
+			if(data.playerId != myId) p2_class =data.playerClass;
+
+			if(data.playerClass == 'warrior') {
+				if(data.playerId==1) {
+					$('#player1').attr('src','images/player2.png');
+					$('#player1').attr('class','Warrior');
+					$('#playerRenderer1').attr('class','rendererWarrior');
+				}
+				else {
+					$('#player2').attr('src','images/player2.png');
+					$('#player2').attr('class','Warrior');
+					$('#playerRenderer2').attr('class','rendererWarrior');
+				}
+			}
+			else {
+				if(data.playerId==1) {
+					$('#player1').attr('src','images/player1.png');
+					$('#player1').attr('class','Mage');
+					$('#playerRenderer1').attr('class','rendererMage');
+				}
+				else {
+					$('#player2').attr('src','images/player1.png');
+					$('#player2').attr('class','Mage');
+					$('#playerRenderer2').attr('class','rendererMage');
+				}
+			}
+}
+
 function setImages(){
 	if(myId == 2){
-		$(".playerRenderer1").before($(".playerRenderer2"));
-		$("#game_background").after($(".playerRenderer1"));
+		$("#playerRenderer1").before($("#playerRenderer2"));
+		$("#game_background").after($("#playerRenderer1"));
 
 
-		renderer1 = '.playerRenderer2';
-		renderer2 = '.playerRenderer1';
+		renderer1 = '#playerRenderer2';
+		renderer2 = '#playerRenderer1';
 	}
+
+
+	console.log('asdasdasdsadasdasd11');
+
+
 }
 
 function castSkill(data)	{;
@@ -320,8 +360,7 @@ function gameLost(data){
 }
 
 function gameWon(){
-	console.log("Game won!");
-	location.replace("profile.php");
+	$('#gameLog').show();
 }
 
 function dealDamage(data){
@@ -348,6 +387,7 @@ function dealDamage(data){
 function setMap()
 {
 	$("#game_background").attr("src",maps[mapId].background);
+	$('#playerRenderer2').hide();
 }
 
 function clone(obj) {
@@ -368,11 +408,25 @@ function spawnMob(mobType) {
 	Mob.spawn(data);
 }
 
-function mobSpawner() {
-	if(p1_Position >= maps[mapId].spawn_pos[mobQueue]) {
+function spawnAllMobs() {
+
+	for (var i = 0; i < maps[mapId].spawn_mob.length; i++) {
 		spawnMob(maps[mapId].spawn_mob[mobQueue]);
 		mobQueue++;
 	}
+}
+
+
+function backToRoom() {
+	console.log("Game won!");
+
+	$.ajax({
+		type: "POST",
+		url: "stats.php",
+		data: { request: 'addGold' }
+	}).done(function( result ) {
+		location.replace("profile.php");
+	});
 }
 
 ///////////////////////////////////////////
@@ -390,7 +444,14 @@ var anim = setInterval(function() {
 	{
 		curframe = 0;
 	}
-	$('#player1').css({left: frame+'vw'});
+	if(myId == 1) {
+		if(p1_class=='mage') $('#player1').css({left: frame+'vw'});
+		if(p2_class=='mage') $('#player2').css({left: frame+'vw'});
+	}
+	else {
+		if(p1_class=='mage') $('#player2').css({left: frame+'vw'});
+		if(p2_class=='mage') $('#player1').css({left: frame+'vw'});
+	}
 }, 70);
 
 
@@ -405,7 +466,14 @@ var anim2 = setInterval(function()	{
 	{
 		curframe2 = 0;
 	}
-	$('#player2').css({left: frame+'vw'});
+	if(myId == 1) {
+		if(p1_class=='warrior') $('#player1').css({left: frame+'vw'});
+		if(p2_class=='warrior') $('#player2').css({left: frame+'vw'});
+	}
+	else {
+		if(p1_class=='warrior') $('#player2').css({left: frame+'vw'});
+		if(p2_class=='warrior') $('#player1').css({left: frame+'vw'});
+	}
 }, 70);
 
 var mobMovement = setInterval(function() {

@@ -17,7 +17,8 @@ var Player = {
 	atack: null,
   lost: null,
   castSkill: null,
-  startGame: null
+  startGame: null,
+  setLook: null
 };
 var Mob = {
 	move: null,
@@ -77,7 +78,6 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
         break;
 			case 2:
 				Move(data);
-        console.log(data);
 				break;
 			case 3:
 				moveMob(data);
@@ -100,6 +100,14 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
       case 9:
         $('#btn_submit').click();
         break;
+      case 10:
+      try {
+        setPlayerLook(data);
+        console.log(data);
+      } catch (e) {
+      } finally {
+      }
+        break;
       default:
         }
     };
@@ -108,22 +116,16 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
 
         switch (LBC.StateToName(this.state)) {
           case 'JoinedLobby':
-            $('#roomSlotsContainer').show();
-            $('#playerSlotsContainer').empty();
-            $('#playerSlotsContainer').hide();
-            $('#createRoomButton').show();
-            $('#leaveRoomButton').hide();
-            $('#playerSlotsContainer').empty();
+            $('#lobby').show();
+            $('#worldMap').hide();
             $('#startGame').hide();
             $('#playerId').val(0);
+            $('#btn_start').show();
             break;
           case 'Joined':
-            $('#roomSlotsContainer').hide();
-            $('#playerSlotsContainer').show();
-            $('#createRoomButton').hide();
-            $('#leaveRoomButton').show();
             $('#startGame').show();
-
+            $('#lobby').hide();
+            $('#worldMap').hide();
             break;
           default:
 
@@ -149,16 +151,40 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
         _myId++;
       }
 
+
       if($('#playerId').val()==0) {
         $('#playerId').val(_myId);
+        console.log(_myId);
+        if(_myId>1) $('#btn_start').hide();
+        else $('#btn_start').show();
       }
-      console.log($('#playerId').val());
+
+      $('#playersInGame').val(this.myRoom().playerCount);
 
     } catch (e) {
-
     } finally {
-
     }
+
+    try {
+      if(actor.actorNr>1) {
+        $('#playerRenderer2').show();
+      }
+    } catch (e) {
+    } finally {
+    }
+
+    try {
+      var data = {playerId: myId, playerClass: stats['class']};
+      Player.setLook(data);
+
+      if(this.myRoom().playerCount  == this.myRoom().getCustomProperty('playersInGame') && actor.isLocal) {
+        spawnAllMobs();
+      }
+
+    } catch (e) {
+    } finally {
+    }
+
   }
   DemoLoadBalancing.prototype.onActorLeave = function (actor, cleanup) {
 
@@ -169,9 +195,8 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
         for(var _actor in this.myRoomActors()) {
           showPlayer(this.myRoomActors()[_actor].name);
         }
-
+        $('#playersInGame').val(1);
         var _myId = $('#playerId').val(1);
-        console.log($('#playerId').val());
 
       }
     } catch (e) {
@@ -230,16 +255,15 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
       Player.startGame = function()    {
       _this.raiseEvent(9, null, { receivers: 1 });
     };
+      Player.setLook = function(data)    {
+      _this.raiseEvent(10, data, { receivers: 1 });
+    };
 
 	};
 	DemoLoadBalancing.prototype.setupUI = function () {
 
     $('#startGame').hide();
-    $('#roomSlotsContainer').show();
-    $('#playerSlotsContainer').hide();
-
-    $('#createRoomButton').show();
-    $('#leaveRoomButton').hide();
+    $('#worldMap').hide();
 	};
 
   return DemoLoadBalancing;
@@ -254,29 +278,35 @@ window.onload = function () {
 };
 
 function _showRooms(rooms)  {
-		console.log("Got room list update!");
     $("#roomSlotsContainer").empty();
 
 	  if(rooms.length>0) {
       for(var i=0;i<rooms.length;i++)	{
-        //var slot = $('<form action="bloody_ice.php" method="POST"><input type="text" name="room_name" value="'+rooms[i].name+'"><input type="submit" value="Join room"></form>');
-        var slot = $('<input type="button" value="'+rooms[i].name+'" onclick="_joinRoom(\''+rooms[i].name+'\')"/>');
 
-        $("#roomSlotsContainer").append(slot);
+        var roomName = rooms[i].getCustomProperty('roomName');
+        var creator = rooms[i].getCustomProperty('creator');
+        var mapName = rooms[i].getCustomProperty('mapName');
+        var difficulty = rooms[i].getCustomProperty('difficulty');
+
+        var info = '<span>'+roomName+'</span> <span>'+mapName+'</span> <span>'+difficulty+'</span> <span>'+creator+'</span>';
+        var start = $('<input id="btn_join" type="button" value="Join" onclick="_joinRoom(\''+rooms[i].name+'\')"/></br>');
+
+        $("#roomSlotsContainer").append(info);
+        $("#roomSlotsContainer").append(start);
   		}
     }
 }
 function _createRoom() {
-    console.log('creating room');
-    demo.createRoom();
+    demo.createRoom(null, {maxPlayers: 2, customGameProperties: {mapName: 'Bloody Ice', creator: playerName, roomName: $('#nameRoomfield').val(), difficulty: $('#difLevel').val()}});
+    $('#worldMap').hide();
+    $('#startGame').hide();
 }
 function _joinRoom(roomName) {
-    console.log('joining');
     demo.joinRoom(roomName);
 }
 function _startGame(roomName) {
-    demo.joinRoom(roomName, {createIfNotExists: true});
+    demo.joinRoom(roomName, {createIfNotExists: true}, {isVisible: false, customGameProperties: {playersInGame: playersInGame}});
 }
 function _leaveRoom(){
-  demo.leaveRoom();
+    demo.leaveRoom();
 }

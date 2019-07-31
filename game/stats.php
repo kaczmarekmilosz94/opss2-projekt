@@ -22,6 +22,9 @@
 		case 'buy':
 			buyItem();
 			break;
+		case 'addGold':
+			addGold();
+			break;
 		default:
 			echo "Function not found";
 			break;
@@ -54,6 +57,7 @@
 						$_SESSION['skill1']  = $row['skill1'];
 						$_SESSION['skill2']  = $row['skill2'];
 						$_SESSION['elixir']  = $row['elixir'];
+						$_SESSION['class']  = $row['class'];
 					}
 
 					$result=null;
@@ -69,6 +73,7 @@
 					$skill1 = $_SESSION['skill1'];
 					$skill2 = $_SESSION['skill2'];
 					$elixir = $_SESSION['elixir'];
+					$class = $_SESSION['class'];
 
 
 					$hp = $str*10;
@@ -93,7 +98,8 @@
 					"outfit" => $outfit,
 					"skill1" => $skill1,
 					"skill2" => $skill2,
-					"elixir" => $elixir
+					"elixir" => $elixir,
+					"class" => $class
 					);
 
 					echo json_encode($stats);
@@ -143,7 +149,6 @@
 			 	$db=null;
 			}
    }
-
 	function sellItem()	{
 
  		 	$_SESSION['gold']+=$_POST['cost'];
@@ -171,6 +176,30 @@
  		 	}
  		 	$db=null;
     }
+	function addGold()	{
+
+	 		$_SESSION['gold']+=200;
+
+	 		$gold = $_SESSION['gold'];
+	  	$username = $_SESSION['username'];
+
+	 	 	$db = new PDO('sqlite:../game_PDO.sqlite');
+
+	 	 	$sql = "UPDATE users
+		 	SET
+	 	 	gold='$gold'
+	 	 	WHERE username='$username'";
+
+	 		if($db->query($sql))
+	 		{
+	 			echo 1;
+	 		}
+	 		else
+	 		{
+	 		 	echo 0;
+	 	 	}
+	 	 	$db=null;
+	  }
 
  	function addPoint($stat)	{
 
@@ -185,11 +214,7 @@
 
  						 $db = new PDO('sqlite:../game_PDO.sqlite');
 
- 					   $sql = "UPDATE users
- 					   SET
- 					     $stat=$value,
- 					     gold=$gold
- 					   WHERE username='$username'";
+ 					   $sql = "UPDATE users SET $stat=$value, gold=$gold WHERE username='$username'";
 
  						 if($db->query($sql))
  						 {
